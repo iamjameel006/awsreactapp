@@ -27,8 +27,11 @@ jobs:
             USER_NAME: ${{secrets.REMOTE_USER}}
       run: |
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
-        scp -o StrictHostKeyChecking=no -i private_key.pem -r build/* ubuntu@3.86.48.204:/tmp/
-        sudo mkdir -p ubuntu@3.86.48.204:/var/www/html/myreactapp/
+        scp -o StrictHostKeyChecking=no -i private_key.pem -r build/* ubuntu@3.86.48.204:/tmp/ '
+        cd ubuntu@3.86.48.204:/var/www/html/
+        sudo mkdir myreactapp
+
+        '
         
       
       # with:         
