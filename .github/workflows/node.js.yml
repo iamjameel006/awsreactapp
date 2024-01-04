@@ -5,27 +5,47 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
 jobs:
-  build:
-
+   Deploy:
+    name: Deploy to EC2
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Install Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
-    - name: Install npm dependencies
-      run: npm install
-    - name: Run build task
-      run: npm run build --if-present
-    - name: Deploy to Server
+    - name: Build & Deploy
+      env:
+        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        HOSTNAME: ${{secrets.REMOTE_HOST}}
+        USER_NAME: ${{secrets.REMOTE_USER}}
+
+        
+    # - name: Install Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '20.x'
+    # - name: Install npm dependencies
+    #   run: npm install
+    # - name: Run build task
+    #   run: npm run build --if-present
+    # - name: Deploy to Server
       
       run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem && chmod 600 private_key.pem
-        scp -i private_key.pem -r build/ ${{ secrets.REMOTE_USER }}@54.197.214.25:/tmp
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${{secrets.REMOTE_USER}}@$54.197.214.25 '
+          cd /home/ubuntu/<PROJECT_DIRECTORY> &&
+          git checkout main &&
+          git fetch --all &&
+          git reset --hard origin/main &&
+          git pull origin main &&
+          sudo npm i &&
+          sudo npm run build &&
+          sudo pm2 stop ./dist/index.js &&
+          sudo pm2 start ./dist/index.js
+        '
+        
+      #echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem && chmod 600 private_key.pem
+      #scp -i private_key.pem -r build/ ${{ secrets.REMOTE_USER }}@54.197.214.25:/tmp
       
       # with:         
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
