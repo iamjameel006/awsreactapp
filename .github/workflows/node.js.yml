@@ -22,7 +22,7 @@ jobs:
     - name: Run build task
       run: npm run build --if-present
     - name: Deploy to Server
-      run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} build/ ${{ secrets.REMOTE_USER }}:/
+      run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} build/ ${{ secrets.REMOTE_USER }}@54.197.214.25:/tmp
       
       # with:
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
