@@ -24,7 +24,7 @@ jobs:
       run: |  
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem  
         chmod 600 private_key.pem
-        scp -i private_key.pem -r build/ ${{ secrets.REMOTE_USER }}@54.197.214.25:/tmp
+        scp -i private_key.pem -r build/ ${{ secrets.REMOTE_USER }}@3.86.48.204:/tmp
       
       # with:         
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
