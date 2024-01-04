@@ -18,7 +18,7 @@ jobs:
     - name: Install npm dependencies
       run: npm install
     - name: Run build task
-      run: npm run build --if-present
+      run: npm run build 
     
     - name: Build & Deploy    
       env:
@@ -29,7 +29,7 @@ jobs:
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@3.86.48.204:/tmp/
         ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@3.86.48.204 '
-        cd /tmp
-        ls -lrtha
+        sudo mkdir -p /var/www/html/awsreactapp &&
+        sudo mv /tmp/build/* /var/www/html/awsreactapp 
         '
     
