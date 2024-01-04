@@ -23,9 +23,11 @@ jobs:
       run: npm run build --if-present
     - name: Deploy to Server
       
-      run: scp ${{ secrets.SSH_PRIVATE_KEY }} -r build/ ${{ secrets.REMOTE_USER }}@54.197.214.25:/tmp
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem && chmod 600 private_key.pem
+        scp -i ${{ secrets.SSH_PRIVATE_KEY }} -r build/ ${{ secrets.REMOTE_USER }}@54.197.214.25:/tmp
       
-      # with:         echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem && chmod 600 private_key.pem
+      # with:         
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       #     SOURCE: "build/"
       #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
