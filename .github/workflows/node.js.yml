@@ -26,7 +26,8 @@ jobs:
             HOSTNAME: ${{secrets.REMOTE_HOST}}
             USER_NAME: ${{secrets.REMOTE_USER}}
       run: |
-        scp -i ./../../nginx-test.pem -r build/ ubuntu@3.86.48.204:/tmp/
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        scp -i private_key -r build/ ubuntu@3.86.48.204:/tmp/
       
       # with:         
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
