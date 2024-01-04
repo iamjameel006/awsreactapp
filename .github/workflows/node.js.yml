@@ -25,11 +25,17 @@ jobs:
             PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
             HOSTNAME: ${{secrets.REMOTE_HOST}}
             USER_NAME: ${{secrets.REMOTE_USER}}
+    - name: Upload build to EC2
       run: |
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@3.86.48.204:/tmp/
-        sudo mkdir  ubuntu@3.86.48.204/var/www/html/myreactapp
-      
+    - name: move files to /var/www
+      run: |
+        echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+        ssh -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@3.86.48.204 '
+        sudo mkdir -p /var/www/html/myreactapp && 
+        sudo mv -r /tmp/build/* /var/www/html/myreactapp/
+        '
       # with:         
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       #     SOURCE: "build/"
