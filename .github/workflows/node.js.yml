@@ -31,8 +31,8 @@ jobs:
     # - name: Deploy to Server
       
       run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@54.197.214.25 '
+        echo $PRIVATE_KEY > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           cd /tmp &&
           git checkout main &&
           git fetch --all &&
