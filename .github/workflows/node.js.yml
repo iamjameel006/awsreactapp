@@ -25,10 +25,7 @@ jobs:
             PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
             HOSTNAME: ${{secrets.REMOTE_HOST}}
             USER_NAME: ${{secrets.REMOTE_USER}}
-            
-    - name: Upload build to EC2
       run: |
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@3.86.48.204:/tmp/
-        
-   
+    
