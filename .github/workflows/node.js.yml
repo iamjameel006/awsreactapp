@@ -33,7 +33,7 @@ jobs:
       run: |
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
         ssh -o StrictHostKeyChecking=no -i private_key ${{secrets.REMOTE_USER}}@54.197.214.25 '
-          cd /home/ubuntu/<PROJECT_DIRECTORY> &&
+          cd /tmp &&
           git checkout main &&
           git fetch --all &&
           git reset --hard origin/main &&
