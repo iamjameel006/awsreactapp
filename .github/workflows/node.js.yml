@@ -27,8 +27,7 @@ jobs:
             USER_NAME: ${{secrets.REMOTE_USER}}
       run: |
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
-        sudo scp -o StrictHostKeyChecking=no -i private_key.pem -r build/* ubuntu@3.86.48.204:/var/www/html/
-    
+        scp -o StrictHostKeyChecking=no -i private_key.pem -r build/* ubuntu@3.86.48.204:/tmp/
       
       # with:         
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
