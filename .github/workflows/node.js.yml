@@ -32,5 +32,5 @@ jobs:
     - name: Create dir and move    
       run: |
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@3.86.48.204 sudo mkdir -p /var/www/html/awsreactapp
+        ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@3.86.48.204 'sudo mkdir -p /var/www/html/awsreactapp'
     
