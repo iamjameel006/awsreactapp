@@ -33,7 +33,7 @@ jobs:
         if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
           sudo mv /tmp/build/* /var/www/html/awsreactapp
         else
-          cd /var/www/html/awsreactapp
+          cd /var/www/html/awsreactapp/
           sudo zip -r "awsreactapp–`date +%d-%m-%y`–`date +%H-%M-%S`.zip" 
           sudo rm -rf /var/www/html/awsreactapp/*
           sudo mv /tmp/build/* /var/www/html/awsreactapp
