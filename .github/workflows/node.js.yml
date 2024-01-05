@@ -29,8 +29,22 @@ jobs:
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@3.86.48.204:/tmp/
         ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@3.86.48.204 '
+        
+        if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
+           echo "Empty"
+        else
+         echo "Not Empty"
+        fi  &&
+        
         sudo mv /tmp/build/* /var/www/html/awsreactapp &&
         sudo nginx -t &&
         sudo systemctl restart nginx 
         '
+      # echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+      # scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@3.86.48.204:/tmp/
+      # ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@3.86.48.204 '
+      # sudo mv /tmp/build/* /var/www/html/awsreactapp &&
+      # sudo nginx -t &&
+      # sudo systemctl restart nginx 
+      # '
     
