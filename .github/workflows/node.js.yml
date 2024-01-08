@@ -55,11 +55,11 @@ jobs:
         sudo nginx -t &&
         sudo systemctl restart nginx 
         
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 841738364964.dkr.ecr.us-east-1.amazonaws.com
+        sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 841738364964.dkr.ecr.us-east-1.amazonaws.com
         
         sudo docker build -t react-app .
-        sudo docker tag react-app:latest-1 841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:latest-1
-        sudo docker push 841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:latest-1
+        sudo docker tag react-app:latest 841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:latest
+        sudo docker push 841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:latest
         '
      
  
