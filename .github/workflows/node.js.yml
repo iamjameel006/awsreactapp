@@ -28,7 +28,7 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ${{secrets.REMOTE_USER}}@${{secrets.REMOTE_HOST}} '
+        ssh -o StrictHostKeyChecking=no -i private_key.pem $USER_NAME@$HOSTNAME '
         
         if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
           sudo mv /tmp/build/* /var/www/html/awsreactapp
