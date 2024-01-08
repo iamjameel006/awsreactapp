@@ -55,8 +55,11 @@ jobs:
         sudo nginx -t &&
         sudo systemctl restart nginx 
         
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 841738364964.dkr.ecr.us-east-1.amazonaws.com
+        
+        docker build -t react-app .
+        docker tag react-app:latest-1 841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:latest-1
+        docker push 841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:latest-1
         '
      
  
