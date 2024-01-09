@@ -40,7 +40,9 @@ jobs:
             ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
             IMAGE_TAG: aws-reactjs_demo_image            
       run: |
-        docker build -t reactapp .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
         echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
         ssh -o StrictHostKeyChecking=no -i private_key.pem $USER_NAME@$HOSTNAME '
@@ -55,10 +57,7 @@ jobs:
         fi  &&
         sudo nginx -t &&
         sudo systemctl restart nginx 
-        
-        # docker build -t reactapp ./../..
-        # # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG        
-        
+           
         '
      
  
