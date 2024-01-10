@@ -9,7 +9,7 @@ RUN npm run build
 #STAGE-2
 FROM nginx:1.23.0-alpine
 WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
+RUN rm -rf ./* 
 COPY --from=nodework /app/build/ .
 ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
 
