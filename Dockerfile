@@ -6,6 +6,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+
 #STAGE-2
 FROM nginx:1.23.0-alpine
 WORKDIR /usr/share/nginx/html
