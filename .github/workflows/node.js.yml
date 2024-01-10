@@ -43,22 +43,22 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
-        echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
-        scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
-        ssh -o StrictHostKeyChecking=no -i private_key.pem $USER_NAME@$HOSTNAME '
+      # echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+        # scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
+        # ssh -o StrictHostKeyChecking=no -i private_key.pem $USER_NAME@$HOSTNAME '
         
-        if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
-          sudo mv /tmp/build/* /var/www/html/awsreactapp
-        else
-          cd /var/www/html/backup/
-          sudo zip -r "awsreactapp–`date +%d-%m-%y`–`date +%H-%M-%S`.zip" ../awsreactapp
-          sudo rm -rf /var/www/html/awsreactapp/*
-          sudo mv /tmp/build/* /var/www/html/awsreactapp
-        fi  &&
-        sudo nginx -t &&
-        sudo systemctl restart nginx 
+        # if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
+        #   sudo mv /tmp/build/* /var/www/html/awsreactapp
+        # else
+        #   cd /var/www/html/backup/
+        #   sudo zip -r "awsreactapp–`date +%d-%m-%y`–`date +%H-%M-%S`.zip" ../awsreactapp
+        #   sudo rm -rf /var/www/html/awsreactapp/*
+        #   sudo mv /tmp/build/* /var/www/html/awsreactapp
+        # fi  &&
+        # sudo nginx -t &&
+        # sudo systemctl restart nginx 
            
-        '
+        # '
      
  
 
