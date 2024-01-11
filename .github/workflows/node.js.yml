@@ -60,6 +60,7 @@ jobs:
             service: reactappecs
             cluster: test-react-app-cluster
             wait-for-service-stability: true
+
           
         # echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
           # scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
