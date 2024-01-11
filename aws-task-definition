@@ -1,0 +1,84 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:841738364964:task-definition/react-app-ecs:9",
+    "containerDefinitions": [
+        {
+            "name": "react-app",
+            "image": "841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:aws-reactjs_demo_image",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "container-port",
+                    "containerPort": 3001,
+                    "hostPort": 3001,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/react-app-ecs",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            }
+        }
+    ],
+    "family": "react-app-ecs",
+    "taskRoleArn": "arn:aws:iam::841738364964:role/AWS-ECS-TaskExecution-Role",
+    "executionRoleArn": "arn:aws:iam::841738364964:role/AWS-ECS-TaskExecution-Role",
+    "networkMode": "bridge",
+    "revision": 9,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "1024",
+    "memory": "512",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-01-11T06:43:47.241Z",
+    "registeredBy": "arn:aws:iam::841738364964:user/iam_jameel",
+    "tags": []
+}
