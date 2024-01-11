@@ -43,7 +43,7 @@ jobs:
       
             ECS_SERVICE: reactappecs
             ECS_CLUSTER: test-react-app-cluster
-            ECS_TASK_DEFINITION: aws-task-definition
+            ECS_TASK_DEFINITION: aws-task-definition.json
             CONTAINER_NAME: react-app
               
           run: |
