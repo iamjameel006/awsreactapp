@@ -7,58 +7,84 @@ on:
   push:
     branches: [ "main" ]
 jobs:
+
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Install Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
-    - name: Install npm dependencies
-      run: npm install
-    - name: Run build task
-      run: npm run build 
+    
+    # - uses: actions/checkout@v3
+    # - name: Install Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '20.x'
+    # - name: Install npm dependencies
+    #   run: npm install
+    # - name: Run build task
+    #   run: npm run build 
       
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-        
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-        
-    - name: Build and push the tagged docker image to Amazon ECR, Build react app & Deploy,    
-      env:
-            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-            HOSTNAME: ${{secrets.REMOTE_HOST}}
-            USER_NAME: ${{secrets.REMOTE_USER}}
-            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
-            IMAGE_TAG: aws-reactjs_demo_image            
-      run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        
-      # echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
-        # scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
-        # ssh -o StrictHostKeyChecking=no -i private_key.pem $USER_NAME@$HOSTNAME '
-        
-        # if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
-        #   sudo mv /tmp/build/* /var/www/html/awsreactapp
-        # else
-        #   cd /var/www/html/backup/
-        #   sudo zip -r "awsreactapp–`date +%d-%m-%y`–`date +%H-%M-%S`.zip" ../awsreactapp
-        #   sudo rm -rf /var/www/html/awsreactapp/*
-        #   sudo mv /tmp/build/* /var/www/html/awsreactapp
-        # fi  &&
-        # sudo nginx -t &&
-        # sudo systemctl restart nginx 
-           
-        # '
-     
- 
-
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+          
+      - name: Build and push the tagged docker image to Amazon ECR, Build react app & Deploy,    
+        env:
+              # PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+              # HOSTNAME: ${{secrets.REMOTE_HOST}}
+              # USER_NAME: ${{secrets.REMOTE_USER}}
+              
+              ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+              ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
+              IMAGE_TAG: aws-reactjs_demo_image   
+  
+              ECS_SERVICE: reactappecs
+              ECS_CLUSTER: test-react-app-cluster
+              ECS_TASK_DEFINITION: aws-task-definition
+              CONTAINER_NAME: react-app
+              
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          
+          - name: Fill in the new image ID in the Amazon ECS task definition
+          id: task-def
+          uses: aws-actions/amazon-ecs-render-task-definition@97587c9d45a4930bf0e3da8dd2feb2a463cf4a3a
+          with:
+            task-definition: ${{ env.ECS_TASK_DEFINITION }}
+            container-name: ${{ env.CONTAINER_NAME }}
+            image: ${{ steps.build-image.outputs.image }}
+  
+          - name: Deploy Amazon ECS task definition
+          uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
+          with:
+            task-definition: ${{ steps.task-def.outputs.task-definition }}
+            service: ${{ env.ECS_SERVICE }}
+            cluster: ${{ env.ECS_CLUSTER }}
+            wait-for-service-stability: true
+          
+        # echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+          # scp -o StrictHostKeyChecking=no -i private_key.pem -r build/ ubuntu@$HOSTNAME:/tmp/
+          # ssh -o StrictHostKeyChecking=no -i private_key.pem $USER_NAME@$HOSTNAME '
+          
+          # if [ -z "$(ls -A /var/www/html/awsreactapp)" ]; then
+          #   sudo mv /tmp/build/* /var/www/html/awsreactapp
+          # else
+          #   cd /var/www/html/backup/
+          #   sudo zip -r "awsreactapp–`date +%d-%m-%y`–`date +%H-%M-%S`.zip" ../awsreactapp
+          #   sudo rm -rf /var/www/html/awsreactapp/*
+          #   sudo mv /tmp/build/* /var/www/html/awsreactapp
+          # fi  &&
+          # sudo nginx -t &&
+          # sudo systemctl restart nginx 
+             
+          # '
+       
+   
+  
