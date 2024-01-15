@@ -1,44 +1,84 @@
 {
-    "family": "react-app-ecs",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:841738364964:task-definition/new-test-react-app-ecstd:4",
     "containerDefinitions": [
         {
-            "name": "react-app",
+            "name": "new-test-react-app-container",
             "image": "841738364964.dkr.ecr.us-east-1.amazonaws.com/react-app:aws-reactjs_demo_image",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "container-port",
+                    "name": "new-test-react-app-ecs",
                     "containerPort": 3001,
-                    "hostPort": 3001,
+                    "hostPort": 0,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
             ],
             "essential": true,
             "environment": [],
+            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
+            "ulimits": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/react-app-ecs",
+                    "awslogs-group": "/ecs/new-test-react-app-ecstd",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
-                }
+                },
+                "secretOptions": []
             }
         }
     ],
+    "family": "new-test-react-app-ecstd",
     "taskRoleArn": "arn:aws:iam::841738364964:role/AWS-ECS-TaskExecution-Role",
     "executionRoleArn": "arn:aws:iam::841738364964:role/AWS-ECS-TaskExecution-Role",
     "networkMode": "bridge",
+    "revision": 4,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2"
+    ],
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "500",
-    "memory": "450",
+    "cpu": "512",
+    "memory": "410",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
-    }
+    },
+    "registeredAt": "2024-01-15T08:55:00.553Z",
+    "registeredBy": "arn:aws:iam::841738364964:user/iam_jameel",
+    "tags": []
 }
