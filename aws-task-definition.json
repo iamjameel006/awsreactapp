@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:841738364964:task-definition/new-test-react-app-ecstd:7",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:841738364964:task-definition/new-test-react-app-ecstd:9",
     "containerDefinitions": [
         {
             "name": "new-test-react-app-container",
@@ -33,7 +33,7 @@
     "taskRoleArn": "arn:aws:iam::841738364964:role/AWS-ECS-TaskExecution-Role",
     "executionRoleArn": "arn:aws:iam::841738364964:role/AWS-ECS-TaskExecution-Role",
     "networkMode": "bridge",
-    "revision": 7,
+    "revision": 9,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -72,7 +72,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-01-22T10:01:25.866Z",
+    "registeredAt": "2024-01-22T11:36:14.494Z",
     "registeredBy": "arn:aws:iam::841738364964:user/iam_jameel",
     "tags": []
 }
